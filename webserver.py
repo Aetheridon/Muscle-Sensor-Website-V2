@@ -8,7 +8,7 @@ def connection_page():
     if request.method == "POST":
         ip = request.form.get("ip")
         port = int(request.form.get("port"))
-        connect(HOST=ip, PORT=port)
+        connect(HOST=ip, PORT=port) #TODO: Async
         return f"<h1>Conncted to {ip} at port {port}</h1>"
     else: 
         return render_template("connection_page.html")

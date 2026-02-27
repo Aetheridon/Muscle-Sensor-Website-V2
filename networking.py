@@ -1,23 +1,14 @@
 ## Networking code
 import socket
+import threading
+import time
 
 def connect(HOST, PORT):
-    # Create socket
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-    # Connect to server
-    print("Connected!")
-    client.connect((HOST, PORT))
+    client.sendto(b"START", (HOST, PORT))
+    print("Registered with server, waiting for numbers...")
 
     while True:
-        message = input("Send to server: ")
-        
-        if message.lower() == "exit":
-            break
-
-        client.sendall(message.encode())
-
-        data = client.recv(1024)
-        print("Server replied:", data.decode())
-
-    return 0
+        data, addr = client.recvfrom(1024)
+        print(f"From {addr}: {data.decode().strip()}")

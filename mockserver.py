@@ -1,34 +1,23 @@
 import socket
+import random
+import time
 
-HOST = "127.0.0.1"   # Localhost
-PORT = 5231          # Port to listen on
+HOST, PORT = "127.0.0.1", 8888
 
-# Create socket
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server.bind((HOST, PORT))  
 
-# Bind to address and port
-server.bind((HOST, PORT))
+print(f"UDP server listening on {HOST}:{PORT}")
 
-# Start listening
-server.listen(1)
-print(f"Server listening on {HOST}:{PORT}")
+data, addr = server.recvfrom(1024) # client sends a single packet so we can learn its address
+print(f"Client registered from {addr}: {data.decode()}")
 
-# Accept connection
-conn, addr = server.accept()
-print(f"Connected by {addr}")
-
-while True:
-    data = conn.recv(1024)  # Receive up to 1024 bytes
-    
-    if not data:
-        break
-
-    message = data.decode()
-    print(f"Client says: {message}")
-
-    # Send response back
-    response = f"Server received: {message}"
-    conn.sendall(response.encode())
-
-conn.close()
-server.close()
+try:
+    while True:
+        n = random.randint(0, 1_000_000)
+        server.sendto(f"{n}\n".encode(), addr)
+        time.sleep(.2) # throttle
+except KeyboardInterrupt:
+    print("\nServer stopped")
+finally:
+    server.close()
