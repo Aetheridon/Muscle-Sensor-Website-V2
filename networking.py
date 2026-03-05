@@ -10,5 +10,5 @@ def connect(HOST, PORT):
 
     while True:
         data, addr = client.recvfrom(4096) # 4096b is max, recvfrom will only return the actual size packet
-        value = struct.unpack("i", data)[0]
-        print(value)
+        sensorA0, sensorA1 = struct.unpack("<ii", data) # <ii defines how the bytes are structured
+        print(sensorA0, sensorA1)
