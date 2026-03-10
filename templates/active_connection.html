@@ -9,13 +9,69 @@
     <title>Connected</title>
 </head>
 <body>
-    <div class="form-container">
-        <h1>Connected to Sensors</h1>
-        <p>{{ ip }}</p>
+    <div class="dashboard">
+        <div class="form-container">
+            <h1>Connected to Sensors</h1>
+            <p>{{ ip }}</p>
 
-        <form action="#" method="post">
-            <button type="submit" name="disconnect" value="true">Disconnect</button>
-        </form>
+            <form action="#" method="post">
+                <button type="submit" name="disconnect" value="true">Disconnect</button>
+            </form>
+
+        </div>
+
+        <!-- Object tag makes external SVG a container and we can change the colours using basic DOM manipulation  -->
+        <object
+            id="muscle-svg"
+            type="image/svg+xml"
+            data="..\static\simple_muscle_map_base.svg">
+        </object>
+
     </div>
+    
+    <script>
+        const svgObject = document.getElementById("muscle-svg");
+
+        function getColour(value) {
+            if (value >= 100) return "red";
+            if (value >= 60) return "orange";
+            return "green";
+        }
+
+        function setMuscleColour(svgDoc, muscleID, value) {
+            const muscle = svgDoc.getElementById(muscleID);
+            if (!muscle) return;
+            muscle.style.fill = getColour(value);
+        }
+
+        async function getData () {
+            const svgDoc = svgObject.contentDocument;
+            const url = "/sensor_data";
+
+            if (!svgDoc) return; // TODO: add proper debugging later
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`response status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                setMuscleColour(svgDoc, "left_bicep", result.sensorA0);
+                setMuscleColour(svgDoc, "right_bicep", result.sensorA1);
+
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+        if (svgObject) {
+            svgObject.addEventListener("load", () => {
+                getData();
+                setInterval(getData, 500);
+            });
+        }
+    </script>
 </body>
 </html>

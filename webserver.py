@@ -1,9 +1,14 @@
 from networking import connect
 import threading
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 
 app = Flask(__name__)
 stop_event = threading.Event()
+
+latest_data = {
+    "sensorA0": 0,
+    "sensorA1": 0
+}
 
 @app.route("/", methods=["POST", "GET"])
 def connection_page():
@@ -16,7 +21,7 @@ def connection_page():
 
         connect_thread = threading.Thread(
             target=connect,
-            args=(ip, port, stop_event), 
+            args=(ip, port, latest_data, stop_event), 
             daemon=True
         )
         connect_thread.start()
@@ -36,6 +41,10 @@ def connected_page():
             return redirect(url_for("connection_page"))
     else:
         return render_template("active_connection.html", ip=ip)
+
+@app.route("/sensor_data")
+def sensor_data():
+    return jsonify(latest_data)
 
 if __name__ == "__main__":
     app.run(debug=True)

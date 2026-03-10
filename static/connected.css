@@ -8,6 +8,14 @@ body {
     background-color: #f4f6f8;
 }
 
+/* wrapper for panel + SVG */
+.dashboard {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+/* control panel */
 .form-container {
     background: white;
     padding: 40px;
@@ -43,4 +51,10 @@ button {
 
 button:hover {
     background-color: #005fcc;
+}
+
+/* SVG styling */
+#muscle-svg {
+    width: 400px;
+    height: auto;
 }

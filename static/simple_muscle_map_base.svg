@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="700"
+    height="1100"
+    viewBox="0 0 700 1100"
+    role="img"
+    aria-labelledby="title desc">
+  <title id="title">Simple muscle map base</title>
+  <desc id="desc">A simplified front-view human muscle map with individually addressable muscle groups.</desc>
+
+  <style>
+    .outline { fill: #f5f5f5; stroke: #2b2b2b; stroke-width: 3; }
+    .muscle  { fill: #cfcfcf; stroke: #555; stroke-width: 2; transition: fill 0.2s ease; }
+    .label   { font-family: Arial, sans-serif; font-size: 18px; fill: #333; }
+  </style>
+
+  <!-- Body silhouette -->
+  <g id="body_base">
+    <circle class="outline" cx="350" cy="110" r="70" />
+    <rect class="outline" x="300" y="180" width="100" height="60" rx="30" />
+    <path class="outline" d="M260 240
+                             Q245 300 255 390
+                             Q265 490 285 585
+                             Q300 655 305 760
+                             L305 980
+                             Q305 1015 325 1015
+                             Q345 1015 345 980
+                             L345 770
+                             Q345 735 350 735
+                             Q355 735 355 770
+                             L355 980
+                             Q355 1015 375 1015
+                             Q395 1015 395 980
+                             L395 760
+                             Q400 655 415 585
+                             Q435 490 445 390
+                             Q455 300 440 240
+                             Z" />
+    <path class="outline" d="M260 255
+                             Q220 285 200 345
+                             Q180 400 185 455
+                             Q190 505 210 520
+                             Q225 532 235 520
+                             Q245 505 238 480
+                             Q228 430 238 382
+                             Q248 338 270 305 Z" />
+    <path class="outline" d="M440 255
+                             Q480 285 500 345
+                             Q520 400 515 455
+                             Q510 505 490 520
+                             Q475 532 465 520
+                             Q455 505 462 480
+                             Q472 430 462 382
+                             Q452 338 430 305 Z" />
+  </g>
+
+  <!-- Muscle groups -->
+  <g id="muscles">
+    <ellipse id="left_shoulder" class="muscle" cx="275" cy="255" rx="34" ry="36" />
+    <ellipse id="right_shoulder" class="muscle" cx="425" cy="255" rx="34" ry="36" />
+
+    <path id="chest_left" class="muscle"
+          d="M305 250 Q275 280 280 330 Q310 345 345 335 L345 255 Q325 248 305 250 Z" />
+    <path id="chest_right" class="muscle"
+          d="M395 250 Q425 280 420 330 Q390 345 355 335 L355 255 Q375 248 395 250 Z" />
+
+    <ellipse id="left_bicep" class="muscle" cx="235" cy="345" rx="24" ry="55" />
+    <ellipse id="right_bicep" class="muscle" cx="465" cy="345" rx="24" ry="55" />
+
+    <ellipse id="left_forearm" class="muscle" cx="212" cy="440" rx="20" ry="58" transform="rotate(8 212 440)" />
+    <ellipse id="right_forearm" class="muscle" cx="488" cy="440" rx="20" ry="58" transform="rotate(-8 488 440)" />
+
+    <path id="abs_upper_left" class="muscle"
+          d="M318 360 Q300 390 306 430 Q322 438 342 430 L342 362 Q330 357 318 360 Z" />
+    <path id="abs_upper_right" class="muscle"
+          d="M382 360 Q400 390 394 430 Q378 438 358 430 L358 362 Q370 357 382 360 Z" />
+    <path id="abs_lower_left" class="muscle"
+          d="M318 440 Q302 470 308 515 Q323 522 341 515 L341 440 Q329 437 318 440 Z" />
+    <path id="abs_lower_right" class="muscle"
+          d="M382 440 Q398 470 392 515 Q377 522 359 515 L359 440 Q371 437 382 440 Z" />
+
+    <ellipse id="left_oblique" class="muscle" cx="287" cy="430" rx="20" ry="78" transform="rotate(8 287 430)" />
+    <ellipse id="right_oblique" class="muscle" cx="413" cy="430" rx="20" ry="78" transform="rotate(-8 413 430)" />
+
+    <path id="left_quad" class="muscle"
+          d="M310 590 Q285 660 292 760 Q310 785 336 770 L338 595 Q324 588 310 590 Z" />
+    <path id="right_quad" class="muscle"
+          d="M390 590 Q415 660 408 760 Q390 785 364 770 L362 595 Q376 588 390 590 Z" />
+
+    <path id="left_calf" class="muscle"
+          d="M315 790 Q292 850 305 955 Q320 970 338 955 Q345 865 338 790 Z" />
+    <path id="right_calf" class="muscle"
+          d="M385 790 Q408 850 395 955 Q380 970 362 955 Q355 865 362 790 Z" />
+  </g>
+</svg>
