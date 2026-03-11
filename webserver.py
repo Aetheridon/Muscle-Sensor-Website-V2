@@ -1,8 +1,12 @@
 from networking import connect
 import threading
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+import ipaddress
+import secrets
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(32)
+
 stop_event = threading.Event()
 
 latest_data = {
@@ -15,6 +19,19 @@ def connection_page():
     if request.method == "POST":
         ip = request.form.get("ip")
         port = int(request.form.get("port"))
+
+        try:
+            ipaddress.ip_address(ip)
+        except ValueError:
+            flash("Enter a Valid IP")
+            return redirect(url_for("connection_page"))
+
+        try:
+            if not (1 <= port <= 65535):
+                raise ValueError
+        except (ValueError, TypeError):
+            flash("Invalid port number")
+            return redirect(url_for("connection_page"))
 
         if stop_event.is_set():
             stop_event.clear()
