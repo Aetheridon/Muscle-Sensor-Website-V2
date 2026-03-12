@@ -26,10 +26,7 @@ def connection_page():
             flash("Enter a Valid IP")
             return redirect(url_for("connection_page"))
 
-        try:
-            if not (1 <= port <= 65535):
-                raise ValueError # do we really need to raise an error or just make this a simple if condition?
-        except (ValueError, TypeError):
+        if port is None or not (1 <= port <= 65535):
             flash("Invalid port number")
             return redirect(url_for("connection_page"))
 
