@@ -1,6 +1,24 @@
 import socket
 import struct
 
+def verify_server(HOST, PORT):
+    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client.settimeout(3)
+
+    try:
+        client.sendto(b"ONLINE", (HOST, PORT))
+        print("sent verification request to server")
+
+        data, addr = client.recvfrom(4096)
+
+        if data == b"ACK" and addr == (HOST, PORT): # TODO: handle if packet isnt ACK
+            client.close()
+            return True
+        
+    except socket.timeout:
+        client.close()
+        return False
+
 def connect(HOST, PORT, latest_data, stop_event):
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 

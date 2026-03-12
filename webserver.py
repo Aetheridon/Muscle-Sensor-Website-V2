@@ -1,4 +1,4 @@
-from networking import connect
+from networking import connect, verify_server
 import threading
 import ipaddress
 import secrets
@@ -28,9 +28,13 @@ def connection_page():
 
         try:
             if not (1 <= port <= 65535):
-                raise ValueError
+                raise ValueError # do we really need to raise an error or just make this a simple if condition?
         except (ValueError, TypeError):
             flash("Invalid port number")
+            return redirect(url_for("connection_page"))
+
+        if not verify_server(ip, port):
+            flash("Could not connect to server!")
             return redirect(url_for("connection_page"))
 
         if stop_event.is_set():
