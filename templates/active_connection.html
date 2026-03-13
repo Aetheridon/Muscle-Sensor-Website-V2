@@ -31,6 +31,11 @@
     
     <script>
         const svgObject = document.getElementById("muscle-svg");
+        intervalId = null;
+
+        function redirectSvgError() {
+            window.location.href = "/svg_error";
+        }
 
         function getColour(value) {
             if (value >= 2.1) return "red";
@@ -44,11 +49,15 @@
             muscle.style.fill = getColour(value);
         }
 
-        async function getData () {
+        async function getData() {
             const svgDoc = svgObject.contentDocument;
             const url = "/sensor_data";
 
-            if (!svgDoc) return; // TODO: add proper debugging later
+            if (!svgDoc) {
+                clearInterval(intervalId);
+                redirectSvgError();
+                return;
+            }
 
             try {
                 const response = await fetch(url);
@@ -69,8 +78,10 @@
         if (svgObject) {
             svgObject.addEventListener("load", () => {
                 getData();
-                setInterval(getData, 500);
+                intervalId = setInterval(getData, 500);
             });
+        } else {
+            redirectSvgError();
         }
     </script>
 </body>

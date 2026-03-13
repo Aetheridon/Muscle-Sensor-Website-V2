@@ -64,5 +64,11 @@ def connected_page():
 def sensor_data():
     return jsonify(latest_data)
 
+@app.route("/svg_error")
+def svg_error():
+    stop_event.set()
+    flash("Could not load muscle SVG.")
+    return redirect(url_for("connection_page"))
+
 if __name__ == "__main__":
     app.run(debug=True)
