@@ -11,13 +11,16 @@ def verify_server(HOST, PORT):
 
         data, addr = client.recvfrom(4096)
 
-        if data == b"ACK" and addr == (HOST, PORT): # TODO: handle if packet isnt ACK
-            client.close()
+        if data == b"ACK" and addr == (HOST, PORT):
             return True
         
-    except socket.timeout:
-        client.close()
         return False
+
+    except socket.timeout:
+        return False
+    
+    finally:
+        client.close()
 
 def connect(HOST, PORT, latest_data, stop_event):
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
